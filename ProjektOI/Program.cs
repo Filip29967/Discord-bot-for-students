@@ -1,9 +1,17 @@
-﻿namespace ProjektOI;
+﻿using DSharpPlus;
+namespace ProjektOI;
 
 class Program
 {
-    static void Main(string[] args)
+    static async Task Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
+        JSONReader reader = new JSONReader();
+        await reader.ReadJSON();
+        var builder = DiscordClientBuilder.CreateDefault(reader.Token,
+            DiscordIntents.AllUnprivileged | DiscordIntents.MessageContents | DiscordIntents.GuildMembers
+        );
+        var disocordClient = builder.Build();
+        await disocordClient.ConnectAsync();
+        await Task.Delay(-1);
     }
 }
