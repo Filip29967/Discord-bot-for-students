@@ -10,6 +10,8 @@ class Program
         var builder = DiscordClientBuilder.CreateDefault(reader.Token,
             DiscordIntents.AllUnprivileged | DiscordIntents.MessageContents | DiscordIntents.GuildMembers
         );
+        CommandHandler handler = new CommandHandler(reader.Prefix);
+        builder.ConfigureEventHandlers(b=> b.HandleMessageCreated(handler.HandleCommand));
         var disocordClient = builder.Build();
         await disocordClient.ConnectAsync();
         await Task.Delay(-1);

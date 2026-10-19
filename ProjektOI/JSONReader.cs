@@ -5,6 +5,7 @@ namespace ProjektOI;
 public class JSONReader
 {
     public string Token { get; set; }
+    public string Prefix { get; set; }
 
     public async Task ReadJSON()
     {
@@ -13,6 +14,7 @@ public class JSONReader
             string json = await reader.ReadToEndAsync();
             JSONStructure data = JsonConvert.DeserializeObject<JSONStructure>(json);
             Token = data.Token;
+            Prefix = data.Prefix;
         }
     }
 }
