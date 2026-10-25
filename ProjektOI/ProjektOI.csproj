@@ -9,10 +9,13 @@
 
     <ItemGroup>
       <PackageReference Include="DSharpPlus" Version="5.0.0-nightly-02613" />
+      <PackageReference Include="DSharpPlus.Commands" Version="5.0.0-nightly-02613" />
       <PackageReference Include="DSharpPlus.CommandsNext" Version="5.0.0-nightly-02613" />
       <PackageReference Include="DSharpPlus.Interactivity" Version="5.0.0-nightly-02613" />
       <PackageReference Include="DSharpPlus.SlashCommands" Version="5.0.0-nightly-02613" />
+      <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.10" />
       <PackageReference Include="Newtonsoft.Json" Version="14.0.1-beta2" />
+      <PackageReference Include="RestSharp" Version="114.1.0" />
     </ItemGroup>
 
 </Project>
