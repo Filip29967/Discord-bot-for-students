@@ -27,7 +27,7 @@ class Program
         // wlaczenie obslugi komend
         builder.UseCommands((provider, extension) =>
         {
-            extension.AddCommands([typeof(AuthCommands)]);
+            extension.AddCommands([typeof(AuthCommands),typeof(TaskCommands)]);
             var slashCommandProcessor = new SlashCommandProcessor(new SlashCommandConfiguration());
             extension.AddProcessor(slashCommandProcessor);
         });
@@ -35,6 +35,11 @@ class Program
         var disocordClient = builder.Build();
         // connect z serwerem discord
         await disocordClient.ConnectAsync();
+        var usos = new UsosClient(db,reader);
+        _ = Task.Run(() => new Grades(db, usos, disocordClient).RunAsync());
+        _ = Task.Run(() => new CourseTests(db, usos, disocordClient).RunAsync());
+        var reminder = new ReminderManager(db, disocordClient);
+        _ = Task.Run(() => reminder.SendReminderAsync());
         //dzialaj w nieskonczonsc
         await Task.Delay(-1);
     }

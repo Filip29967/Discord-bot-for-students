@@ -24,7 +24,7 @@ public class AuthCommands
     }
     
     [Command("connect")]
-    public async Task ExecuteConnect(SlashCommandContext context)
+    public async Task ExecuteConnectAsync(SlashCommandContext context)
     {
         // do authenticator idzie request po token tam ten token leci do bazy danych i z bazy wraca tu
         await context.DeferResponseAsync(true);
@@ -43,7 +43,7 @@ public class AuthCommands
         
     }
     [Command("pin")]
-    public async Task ExecutePin(SlashCommandContext context, string pin)
+    public async Task ExecutePinAsync(SlashCommandContext context, string pin)
     {
         await context.DeferResponseAsync(true);
         try
@@ -55,6 +55,7 @@ public class AuthCommands
         catch (Exception e)
         {
             Console.WriteLine(e.Message);
+            await context.RespondAsync("Niepoprawny pin lub błąd połączenia");
         }
     }
 }

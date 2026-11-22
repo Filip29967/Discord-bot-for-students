@@ -15,7 +15,7 @@ public class Authenticator
         this.customerKey = customerKey;
         this.customerSecret = customerSecret;
         this.url = url;
-        this.databaseManager = new DatabaseManager();
+        this.databaseManager = databaseManager;
     }
 
     public async Task GetRequestTokenAsync(ulong discordID)
@@ -27,6 +27,7 @@ public class Authenticator
         };
         var client = new RestClient(requestOptions);
         var request = new RestRequest("services/oauth/request_token", Method.Post);
+        request.AddParameter("scopes","studies|offline_access|grades|crstests");
         var response = await client.ExecuteAsync(request);
         Console.WriteLine(response.StatusCode);
         var requestParsed = System.Web.HttpUtility.ParseQueryString(response.Content);
@@ -37,16 +38,16 @@ public class Authenticator
 
     public async Task GetAccessTokenAsync(string requestToken, string requestTokenSecret, string pin, ulong discordID)
     {
-        var requestOptions = new RestClientOptions(url)
+        var accesOptions = new RestClientOptions(url)
         {
             Authenticator =
                 OAuth1Authenticator.ForAccessToken(customerKey, customerSecret, requestToken, requestTokenSecret, pin)
         };
-        var client = new RestClient(requestOptions);
+        var client = new RestClient(accesOptions);
         var request = new RestRequest("services/oauth/access_token", Method.Post);
         var response = await client.ExecuteAsync(request);
-        var accessTokenParsed = System.Web.HttpUtility.ParseQueryString(response.Content);
         Console.WriteLine(response.StatusCode);
+        var accessTokenParsed = System.Web.HttpUtility.ParseQueryString(response.Content);
         var accessToken = accessTokenParsed["oauth_token"];
         var accessTokenSecret = accessTokenParsed["oauth_token_secret"];
         databaseManager.InsertUsersData(discordID, accessToken, accessTokenSecret);
